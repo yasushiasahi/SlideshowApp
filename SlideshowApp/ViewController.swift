@@ -2,8 +2,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-	@IBOutlet weak var imageView: UIImageView!
 	@IBOutlet weak var startPauseButton: UIButton!
+	@IBOutlet weak var imageButton: UIButton!
 	
 	let PPP: [UIImage] = [UIImage(named:"penguin1")!,
 	                      UIImage(named:"penguin2")!,
@@ -21,17 +21,23 @@ class ViewController: UIViewController {
 		super.viewDidLoad()
 		
 		maxArrayNum = PPP.count - 1
-		imageView.image = PPP[currentArrayNum]
+		imageButton.setBackgroundImage(PPP[currentArrayNum], for: .normal)
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
 	}
-
-
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		let image: UIImage = PPP[currentArrayNum]
+		let bigImageViewController: BigImageViewController = segue.destination as! BigImageViewController
+		bigImageViewController.image = image
+	}
+	
+	
 	@IBAction func nextButton(_ sender: Any) {
 		if self.timer == nil {
-			moveImage(direction: "backward")
+			moveImage(direction: "forward")
 		}
 	}
 	
@@ -75,9 +81,12 @@ class ViewController: UIViewController {
 			}
 		}
 		print(currentArrayNum)
-		imageView.image = PPP[currentArrayNum]
+		imageButton.setBackgroundImage(PPP[currentArrayNum], for: .normal)
 	}
 	
+	@IBAction func unwind(_ segue: UIStoryboardSegue) {
+	}
+
 	
 }
 
